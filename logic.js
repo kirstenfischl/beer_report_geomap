@@ -27,7 +27,7 @@ function myFunction(){
         production: data.Production,
         prod_rank: data.Production_Rank,
         consumption: data.Consumption,
-        con_rank: data.Consumption_rank
+        con_rank: data.Consumption_Rank
       }
     );
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
@@ -44,7 +44,7 @@ for (var i = 0; i < csvData2.length; i++) {
       color: "blue",
       fillColor: "yellow",
       radius:csvData2[i]["production"]*50
-    }).bindPopup("<h3>" + csvData2[i].name + "</h3> <hr> Production: " + csvData2[i].production + " Consumption: " + csvData2[i].consumption + " ")
+    }).bindPopup("<h3>" + csvData2[i].name + "</h3> <hr> Production Rank: " + csvData2[i].prod_rank + " <br> Production: " + csvData2[i].production + " kl")
   );
 
 
@@ -55,7 +55,7 @@ for (var i = 0; i < csvData2.length; i++) {
       color: "red",
       fillColor: "red",
       radius: csvData2[i]["consumption"]*50
-    }).bindPopup("<h1>" + csvData2[i].name + "</h1> <hr> <h3>Consumption: " + csvData2[i].consumption + "</h3>")
+    }).bindPopup("<h3>" + csvData2[i].name + "</h3> <hr> Consumption Rank: " + csvData2[i].con_rank + " <br> Consumption: " + csvData2[i].consumption + " kl")
     );
 };
 bounds = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180));
