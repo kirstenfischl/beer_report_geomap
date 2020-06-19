@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Kirin Report - Beer Production and Consumption</title>
+  <title>Beer Report - Production and Consumption</title>
 
   <!-- Leaflet CSS & JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
@@ -18,14 +18,67 @@
 
 <body>
 
-  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+  
+  <header>
+  <img src="cheers.png">
+     Kirin Beer Report
+  <img src="cheers.png">
+     <br>Top Production and Consumption Countries
 
+  </header>
+
+  <br>
+  <br>
+
+  <h3>About:</h3>
+  <ul>
+  <li>
+    Using Kirin’s most recent Beer University Reports, I created a geomapping visualization to represent global beer production and consumption.<br><br>
+  </li>
+  <li>
+    The global beer production report publishes the details of global beer production in 171 major countries and regions for 2018. The report is based on findings obtained from questionnaires sent by Kirin to various brewers’ associations around the world, as well as the latest industry statistics available overseas. The data for global beer production has been tracked by Kirin since 1974.<br><br>
+  </li>
+  <li>
+    The global beer consumption report for 2018 publishes the details of global beer consumption in 170 major countries and regions. The report is based on findings obtained from questionnaires sent by Kirin to various brewers’ associations around the world, as well as the latest industry statistics available overseas. The data for global beer consumption has been tracked by Kirin since 1975.
+  </li>
+  </ul>
+  <hr>
+
+  <h3>Tools:</h3>
+  <p>D3, Leaftlet, Mapbox</p>
+
+  <hr>
+
+  <h3>Limitations of the Data:</h3>
+  <ul>  
+  <li>
+    Although the Kirin Beer University Reports measure the production and consumption volumes of at least 170 countries, the available dataset only includes the top 25 producing and consuming countries. This made the dataset small and limited in nature and potential exploration.<br><br>
+  </li>
+  <li>
+    Since only the top 25 countries for production and consumption volume were available to plot, some countries were mapped with either no production or consumption value if they only qualified for one of the lists.<br><br>
+    Australia, Italy, Romania have consumption values but no production values.<br><br>
+    Belgium, the Netherlands, and Nigeria have production numbers but no consumption numbers.<br><br>
+  </li>
+  <li>    
+    Volume was measured in total volume but could have included additional meaningful data such as how much of production or consumption was imported vs exported, or measured against another statistic to make the value more meaningful (per capita, % of GDP)
+  </li>
+  </ul>
+  </div>
+
+  <hr>
+
+  <h3>Geomapping Beer Production and Consumption Volume:</h3>
 
   <!-- The div where we will inject our map -->
   <div id="map"></div>
+
+  <br>
+  <br>
+  <br>
   <!-- API key -->
-  <script type="text/javascript" src="config.js"></script>
+  <script type="text/javascript" src="./config.js"></script>
   <!-- Our JS -->
-  <script type="text/javascript" src="logic.js"></script>
+  <script type="text/javascript" src="./logic.js"></script>
 </body>
 </html>

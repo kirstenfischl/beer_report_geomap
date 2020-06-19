@@ -1,79 +1,64 @@
 // Load data
-d3.csv("./txt.csv").then(function(beerData) {
 
-  console.log(beerData);
-
-  var countries = beerData.map(data => data.Country);
-
-  console.log("countries", countries);
-
-  beerData.forEach(function(data) {
-    data.Country = +data.Country; 
-    console.log("Name:", data.Country);
-  });
-}).catch(function(error) {
-  console.log(error, data);
-});
-
-
-
-// Function to determine marker size based on consumption/production
-function markerSize(beer_production) {
-  return beer_production * 50;
-}
-
-function markerSize(beer_consumption) {
-  return beer_consumption * 50;
-}
-
-// An array containing all of the information needed to create city and state markers
-var tests = [
-  {
-    coordinates: [35.8617, 104.1954],
-    country: {
-      name: "China",
-      beer_production: 38927,
-      beer_consumption: 39362
-    }
-  },
-  {
-    coordinates: [37.0902, -95.7129],
-    country: {
-      name: "United States",
-      beer_production:  21461,
-      beer_consumption: 24029
-    }
-  }
-];
-
-// Define arrays to hold created city and state markers
+var csvData = [];
+var csvData2 = []
+// Define arrays to hold markers
 var productionMarkers = [];
 var consumptionMarkers = [];
 
-// Loop through locations and create city and state markers
-for (var i = 0; i < tests.length; i++) {
-  // Setting the marker radius for the state by passing population into the markerSize function
+d3.csv("./Kirin_Beer_Data.csv").then((beerData) =>{
+  csvData = beerData;
+}).then(myFunction);
+
+
+function myFunction(){
+  csvData.forEach(function(data) {
+    data.Production = +data.Production_Volume_2018;
+    data.Production_Rank = +data.Production_Rank_2018;
+    data.Consumption = +data.Consumption_Volume_2018;
+    data.Consumption_Rank = +data.Consumption_Rank_2018;
+    data.Latitude = +data.Latitude;
+    data.Longitude = +data.Longitude;
+
+    csvData2.push(
+      {
+        coordinates: [data.Latitude, data.Longitude],
+        name: data.Country,
+        production: data.Production,
+        prod_rank: data.Production_Rank,
+        consumption: data.Consumption,
+        con_rank: data.Consumption_rank
+      }
+    );
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  });
+
+  console.log(csvData)
+  console.log(csvData.length)
+for (var i = 0; i < csvData2.length; i++) {
+  console.log(csvData2[i]["production"]);
   productionMarkers.push(
-    L.circle(tests[i].coordinates, {
-      stroke: false,
-      fillOpacity: 0.75,
-      color: "white",
-      fillColor: "white",
-      radius: markerSize(tests[i].country.beer_production)
-    }).bindPopup("<h1>" + tests[i].country.name + "</h1> <hr> <h3>Production: " + tests[i].country.beer_production + "</h3>")
+    L.circle(csvData2[i].coordinates, {
+      stroke: true,
+      fillOpacity: 0,
+      color: "blue",
+      fillColor: "yellow",
+      radius:csvData2[i]["production"]*50
+    }).bindPopup("<h1>" + csvData2[i].name + "</h1> <hr> <h3>Production: " + csvData2[i].production + "</h3>")
   );
 
-  // Setting the marker radius for the city by passing population into the markerSize function
+
   consumptionMarkers.push(
-    L.circle(tests[i].coordinates, {
+    L.circle(csvData2[i].coordinates, {
       stroke: false,
-      fillOpacity: 0.75,
-      color: "purple",
-      fillColor: "purple",
-      radius: markerSize(tests[i].country.beer_consumption)
-    }).bindPopup("<h1>" + tests[i].country.name + "</h1> <hr> <h3>Consumption: " + tests[i].country.beer_consumption + "</h3>")
+      fillOpacity: .5,
+      color: "red",
+      fillColor: "red",
+      radius: csvData2[i]["consumption"]*50
+    }).bindPopup("<h1>" + csvData2[i].name + "</h1> <hr> <h3>Consumption: " + csvData2[i].consumption + "</h3>")
     );
-}
+};
+bounds = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180));
 
 // Define variables for our base layers
 var streetmap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -82,12 +67,15 @@ var streetmap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}
     id: 'mapbox/streets-v11',
     tileSize: 512,
     zoomOffset: -1,
+    noWrap:true,
+    maxBounds: bounds,
+
     accessToken: API_KEY
 });
 
-// Create two separate layer groups: one for cities and one for states
-var production = L.layerGroup(productionMarkers);
-var consumption = L.layerGroup(consumptionMarkers);
+// Create production and consumption layer
+var production_layer = L.layerGroup(productionMarkers);
+var consumption_layer = L.layerGroup(consumptionMarkers);
 
 var baseMaps = {
   "Street Map": streetmap
@@ -95,15 +83,18 @@ var baseMaps = {
 
 // Create an overlay object
 var overlayMaps = {
-  "Beer Production": production,
-  "Beer Consumption": consumption
+  "Beer Production": production_layer,
+  "Beer Consumption": consumption_layer
 };
+
 
 // Define a map object
 var myMap = L.map("map", {
   center: [15.5994, 8.6731],
-  zoom: 2.5,
-  layers: [streetmap, production, consumption]
+  zoom: 2,
+  worldCopyJump : false,
+  maxBounds: bounds,
+  layers: [streetmap, production_layer, consumption_layer]
 });
 
 // Pass our map layers into our layer control
@@ -111,3 +102,7 @@ var myMap = L.map("map", {
 L.control.layers(baseMaps, overlayMaps, {
   collapsed: false
 }).addTo(myMap);
+}
+  
+
+
