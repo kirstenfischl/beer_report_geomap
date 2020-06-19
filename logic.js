@@ -44,7 +44,7 @@ for (var i = 0; i < csvData2.length; i++) {
       color: "blue",
       fillColor: "yellow",
       radius:csvData2[i]["production"]*50
-    }).bindPopup("<h1>" + csvData2[i].name + "</h1> <hr> <h3>Production: " + csvData2[i].production + " kl </h3>")
+    }).bindPopup("<h3>" + csvData2[i].name + "</h3> <hr> Production: " + csvData2[i].production + " Consumption: " + csvData2[i].consumption + " ")
   );
 
 
