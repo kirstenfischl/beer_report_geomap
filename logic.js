@@ -44,7 +44,7 @@ for (var i = 0; i < csvData2.length; i++) {
       color: "blue",
       fillColor: "yellow",
       radius:csvData2[i]["production"]*50
-    }).bindPopup("<h1>" + csvData2[i].name + "</h1> <hr> <h3>Production: " + csvData2[i].production + "</h3>")
+    }).bindPopup("<h1>" + csvData2[i].name + "</h1> <hr> <h3>Production: " + csvData2[i].production + " kl </h3>")
   );
 
 
@@ -83,8 +83,8 @@ var baseMaps = {
 
 // Create an overlay object
 var overlayMaps = {
-  "Beer Production": production_layer,
-  "Beer Consumption": consumption_layer
+  "Beer Production (kl)": production_layer,
+  "Beer Consumption (kl)": consumption_layer
 };
 
 
